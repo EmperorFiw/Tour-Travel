@@ -6,7 +6,7 @@ export const guestOnlyGuard = () => {
 	const auth = inject(AuthService);
 	const router = inject(Router);
 
-	if (auth.isLogin()) {
+	if (auth.isLoggedIn()) {
 		router.navigate(['/']);
 		return false;
 	}
@@ -17,7 +17,7 @@ export const authGuard = () => {
 	const auth = inject(AuthService);
 	const router = inject(Router);
 
-	if (!auth.isLogin()) {
+	if (!auth.isLoggedIn()) {
 		router.navigate(['/login']);
 		return false;
 	}

@@ -18,6 +18,10 @@ export interface AppTokenPayload extends JwtPayload {
 })
 export class AuthService {
 
+	setToken(token: string): void {
+		localStorage.setItem('token', token);
+	}
+	
 	getToken(): string | null {
 		return localStorage.getItem('token');
 	}
@@ -40,21 +44,25 @@ export class AuthService {
         const now = Math.floor(Date.now() / 1000);
         return payload.exp < now;
     }
-
-    isLogin(): boolean {
-        const token = this.getToken();
-        if (!token) return false;
-
-        if (this.isTokenExpired()) {
-            this.logout();
-            return false;
-        }
-        
-        if (!this.decode()) return false;
-
-        return true;
+	
+    getUserId(): number | null {
+        return this.decode()?.uid ?? null;
     }
 
+    getUserEmail(): string | null {
+        return this.decode()?.email ?? null;
+    }
+
+    getFullName(): string | null {
+        const p = this.decode();
+        if (!p) return null;
+
+        return `${p.firstname} ${p.lastname}`;
+    }
+
+    getUserRole(): string | null {
+        return this.decode()?.role ?? null;
+    }
 
 	isAdmin(): boolean {
 		return this.decode()?.role === 'admin';
@@ -67,6 +75,20 @@ export class AuthService {
 	isUser(): boolean {
 		return this.decode()?.role === 'user';
 	}
+
+	isLoggedIn(): boolean {
+        const token = this.getToken();
+        if (!token) return false;
+
+        if (this.isTokenExpired()) {
+            this.logout();
+            return false;
+        }
+        
+        if (!this.decode()) return false;
+
+        return true;
+    }
 
 	logout() {
 		localStorage.removeItem('token');

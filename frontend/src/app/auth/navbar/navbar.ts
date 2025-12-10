@@ -20,15 +20,12 @@ interface MenuItem {
 })
 export class Navbar {
 
-  constructor(private auth: AuthService) {}
-
-	get isLoggedIn() {
-		return this.auth.isLogin();
-	}
-
+  
   isMenuOpen = false;
+  isLoggedIn = false;
+  email: string | null = null;
   activeDropdown: string | null = null;
-
+  
   menuItems: MenuItem[] = [
     { label: 'หน้าแรก', link: '#' },
     { label: 'ทัวร์ต่างประเทศ', link: '', hasDropdown: true },
@@ -36,7 +33,12 @@ export class Navbar {
     { label: 'จัดทัวร์กรุ๊ป', link: 'register' },
     { label: 'ติดต่อเรา', link: '' },
   ];
- 
+  
+  constructor(private auth:AuthService) { 
+    this.isLoggedIn = this.auth.isLoggedIn();
+    this.email = this.isLoggedIn ? this.auth.getUserEmail() : null;
+  }
+
   toggleMobileMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -49,5 +51,4 @@ export class Navbar {
     }
   }
 
-  
 } 

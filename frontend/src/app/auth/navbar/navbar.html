@@ -50,8 +50,9 @@
         {{ item.label }}
       </a>
     </ng-container>
-    <div *ngIf="!isLoggedIn">
-      <!-- register / login -->
+
+    <!-- register / login -->
+    <ng-container *ngIf="!isLoggedIn; else showEmailTemplate">
       <div class="flex items-center space-x-3 text-[15px]">
         <a routerLink="/register"
           class="relative text-gray-700 hover:text-blue-600 transition-colors duration-200
@@ -69,8 +70,12 @@
           เข้าสู่ระบบ
         </a>
       </div>
-    </div>
-    </div>
+    </ng-container>
+    <ng-template #showEmailTemplate>
+        <a routerLink="/" class="text-[#3308B2]">{{email}}</a>
+    </ng-template>
+    
+      </div>
     </div>
   </div>
 
@@ -82,10 +87,13 @@
       </a>
 
       <hr class="border-gray-300">
-      <div *ngIf="!isLoggedIn">
+      <ng-container *ngIf="!isLoggedIn; else showEmailTemplate">
         <a routerLink="/register" class="block text-gray-700 hover:text-blue-600">สมัครสมาชิก</a>
         <a routerLink="/login" class="block text-gray-700 hover:text-blue-600">เข้าสู่ระบบ</a>
-      </div>
+      </ng-container>
+      <ng-template #showEmailTemplate>
+        <a routerLink="/" class="text-[#3308B2]">{{email}}</a>
+      </ng-template>
     </div>
   </div>
 </nav>

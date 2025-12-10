@@ -6,6 +6,7 @@ import { Navbar } from '../navbar/navbar';
 import { api } from '../../config';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'app-login',
@@ -26,7 +27,7 @@ export class Login {
 	email: string = "";
 	password: string = "";
 
-	constructor(private router: Router) {}
+	constructor(private router: Router, private auth:AuthService) {}
 
 	loginWithGoogle() {
 		window.location.href = this.endpoint + '/auth/google';
@@ -54,8 +55,8 @@ export class Login {
 				});
 				return;
 			}
+			this.auth.setToken(data.token);
 
-			localStorage.setItem("token", data.token);
 
 			Swal.fire({
 				icon: "success",

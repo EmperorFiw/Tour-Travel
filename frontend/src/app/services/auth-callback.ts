@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AuthService } from './auth.service';
 
 @Component({
 	selector: 'app-auth-callback',
@@ -9,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class AuthCallback implements OnInit {
 
-	constructor(private route: ActivatedRoute, private router: Router) {}
+	constructor(private route: ActivatedRoute, private router: Router, private auth: AuthService) {}
 
 	ngOnInit() {
 		this.route.queryParams.subscribe(params => {
@@ -29,7 +30,7 @@ export class AuthCallback implements OnInit {
 			}
 
 			if (token) {
-				localStorage.setItem('token', token);
+				this.auth.setToken(token);
 
 				Swal.fire({
 					icon: 'success',
