@@ -14,6 +14,8 @@ import { authGuard, guestOnlyGuard } from './services/auth.guard';
 import { Dashboard } from './company/dashboard/dashboard';
 import { NavbarCompany} from './company/navbar-company/navbar-company';
 import { CreateTour } from './company/create-tour/create-tour';
+import { EditTour } from './company/edit-tour/edit-tour';
+import { ManageTour } from './company/manage-tour/manage-tour';
 
 export const routes: Routes = [
     {path: '', component: LandingPage},
@@ -29,6 +31,7 @@ export const routes: Routes = [
     },
     {path: 'dashboard-company', component: Dashboard, canActivate: [authGuard]},
     {path: 'create-tour', component: CreateTour, canActivate: [authGuard]},
-    {path: 'navbar-company', component: NavbarCompany, canActivate: [authGuard]},
+    {path: 'edit-tour', component: EditTour, canActivate: [authGuard]},
+    {path: 'manage-tour', component: ManageTour, canActivate: [authGuard]},
 
 ];

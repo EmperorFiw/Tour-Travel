@@ -2,16 +2,24 @@
 
 <div class="bg-gray-50 min-h-screen font-kanit">
   <div class="max-w-7xl mx-auto px-4 md:px-6 py-6">
-
     <!-- ===== Tabs ===== -->
     <div class="flex gap-6 border-b mb-6 text-sm font-medium">
-      <span class="pb-2 border-b-2 border-blue-600 text-blue-600">ภาพรวม</span>
-      <span class="text-gray-500">จัดการทัวร์</span>
-      <span class="text-gray-500">การจอง</span>
-      <span class="text-gray-500">รีวิว</span>
-      <span class="text-gray-500">สถิติ</span>
+        <button type="button" routerLink="/dashboard-company" class="pb-2 border-b-2 border-blue-600 text-blue-600"> 
+            ภาพรวม 
+        </button>
+        <button type="button" routerLink="/manage-tour" class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent"> 
+            จัดการทัวร์ 
+        </button>
+        <button type="button" class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent">
+            การจอง
+        </button>
+        <button type="button"class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent">
+            รีวิว
+        </button>
+        <button type="button" class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent">
+            สถิติ
+        </button>
     </div>
-
     <!-- ===== Summary Cards ===== -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       <div class="border rounded-lg p-4 bg-white">

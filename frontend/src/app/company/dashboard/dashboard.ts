@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { NavbarCompany } from '../navbar-company/navbar-company';
 
@@ -8,7 +10,7 @@ import { NavbarCompany } from '../navbar-company/navbar-company';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.html',
-  imports: [CommonModule, FormsModule, NavbarCompany],
+  imports: [CommonModule, FormsModule, NavbarCompany, RouterLink, RouterModule],
   styleUrl: './dashboard.scss'
 })
 export class Dashboard {
@@ -20,7 +22,7 @@ export class Dashboard {
   averageRating = 4.6;
 
   // ===== Latest Bookings =====
-  latestBookings = [
+  latestBookings = [ 
     {
       name: 'สมชาย ใจดี',
       tour: 'ทัวร์เชียงใหม่ 3 วัน 2 คืน',

@@ -2,60 +2,58 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-
 import { NavbarCompany } from '../navbar-company/navbar-company';
-
+import { max } from 'rxjs';
 
 @Component({
   selector: 'app-create-tour',
   standalone: true,
   imports: [CommonModule, FormsModule, NavbarCompany],
-  templateUrl: './create-tour.html',
-  styleUrl: './create-tour.scss',
+  templateUrl: './edit-tour.html',
+  styleUrl: './edit-tour.scss',
 })
-export class CreateTour implements OnInit {
+export class EditTour implements OnInit {
 
   currentStep = 1;
   showFireSalePrices = false;
   destinations: string[] = [];
 
   tourInfo = {
-    name: '',
+    name: 'ทัวร์จีน เฉิงตู ภูเขาสี่ดรุณี ปี้เผิงโกว ต๋ากู่ปิงชวน เม่าเสียน ตูเจียงเยี่ยน',
     type: '',
-    destination: '',
+    destination: '', 
     pricing: {
-      single: '',
-      double: '',
-      triple: '',
-      ChildWithBed: '',
-      ChildWithoutBed: ''
+      single: '1000',
+      double: '2000',
+      triple: '2500',
+      ChildWithBed: '3000',
+      ChildWithoutBed: '2800'
     },
-    cancleDate: '',
+    cancleDate: '5',
     startDate: '',
     endDate: '',
-    days: '',
-    food: '',
-    place: '',
-    maxPeople: '',
-    phonenumber: '',
-    lineId: '',
+    days: '3 วัน 2 คืน',
+    food: '5 มื้อ',
+    place: ' 7 แห่ง',
+    maxPeople: '200',
+    phonenumber: '081-234-5678',
+    lineId: '@tourtravel',
   };
 
   fireSalePricing = {
-    single: '',
-    double: '',
-    triple: '',
-    ChildWithBed: '',
-    ChildWithoutBed: '',
+    single: '1000',
+    double: '2000',
+    triple: '2500',
+    ChildWithBed: '3000',
+    ChildWithoutBed: '2800',
     FireStartDate: '',
     FireEndDate: ''
   };
 
   hotelInfo = {
-    name: '',
-    address: '',
-    rating: ''
+    name: 'HOLIDAYINN EXPRESS JINNIU HOTEL',
+    address: '蜀西路46号 (Shuxi Road No. 46), เมืองเฉิงตู (Chengdu), มณฑลเสฉวน (Sichuan), ประเทศจีน',
+    rating: '',
   }
 
   TravelTypeInfo ={
@@ -105,9 +103,9 @@ export class CreateTour implements OnInit {
     }
   }
 
-
-
   submit() {
     console.log('ส่งข้อมูล:', this.tourInfo, this.fireSalePricing);
   }
+
+
 }

@@ -1,0 +1,111 @@
+<app-navbar-company></app-navbar-company>
+
+<div class="bg-gray-50 min-h-screen font-kanit">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+    <!-- ===== Tabs ===== -->
+    <div class="flex gap-6 border-b mb-6 text-sm font-medium">
+        <button type="button" routerLink="/dashboard-company" class="pb-2 border-b-2 border-blue-600 text-blue-600"> 
+            ภาพรวม 
+        </button>
+        <button type="button" routerLink="/manage-tour" class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent"> 
+            จัดการทัวร์ 
+        </button>
+        <button type="button" class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent">
+            การจอง
+        </button>
+        <button type="button"class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent">
+            รีวิว
+        </button>
+        <button type="button" class="pb-2 text-gray-500 hover:text-blue-600 hover:border-blue-600 border-b-2 border-transparent">
+            สถิติ
+        </button>
+    </div>
+    <!--  -->
+
+    <div class="font-kanit text-xl mb-6">
+        <h1>จัดการทัวร์</h1>
+    </div>
+
+    <div class="bg-white rounded-xl shadow border overflow-hidden w-full max-w-sm font-kanit">
+        <!-- รูป + badge -->
+        <div class="relative" *ngFor=" let tour of tourlist">
+            <img src={{tour.img}} class="h-52 w-full object-cover"/>
+        </div>
+
+        <!-- ชื่อทัวร์ -->
+        <div class="p-4" *ngFor="let tour of tourlist">
+            <div class="font-medium text-gray-800 leading-snug"> {{tour.name}} </div>
+        </div>
+
+    
+        <div *ngFor="let tour of tourlist" class="grid grid-cols-4 text-center border py-4 min-h-[110px]">
+            <!-- ช่องบน -->
+            <div class="border-r">
+                <label class="text-gray-500 text-xs mb-1" >จำนวนวัน</label>
+                <div class="text-xs font-medium">{{ tour.days }}</div>
+            </div>
+
+            <div class="border-r">
+                <label class="text-gray-500 text-xs mb-1" >สายการบิน</label>
+                <div class="text-xs text-blue-600 underline flex items-center justify-center">
+                    <img src="https://static.vecteezy.com/system/resources/previews/055/210/904/non_2x/lion-air-logo-free-download-lion-air-logo-free-png.png" alt="lion air" class="h-auto w-10">
+                </div>
+            </div>
+
+            <div class="border-r">
+                <label class="text-gray-500 text-xs mb-1" >โรงแรม</label>
+                <div class="text-yellow-500 text-sm">{{ tour.ratingHotel }}</div>
+            </div>
+
+            <div>
+                <label class="text-gray-500 text-xs mb-1" >รหัสทัวร์</label>
+                <div class="text-blue-500 text-xs font-medium">
+                    {{ tour.code }}
+                </div>
+            </div>
+
+            <div class="col-span-full h-px bg-gray-200 my-2"></div>
+
+            <!-- ช่องล่าง -->
+            <div>
+                <label class="text-gray-500 text-xs mb-1" >จำนวนมื้ออาหาร</label>
+                <div class="text-blue-500 text-xs font-medium">
+                    {{ tour.food }}
+                </div>
+            </div>
+            <div>
+                <label class="text-gray-500 text-xs mb-1" >สถานที่เที่ยว</label>
+                <div class="text-blue-500 text-xs font-medium">
+                    {{ tour.place }}
+                </div>
+            </div>
+        </div>
+
+        <!-- วันที่เดินทาง -->
+        <div class="px-4 py-3 flex gap-2 " *ngFor="let tour of tourlist">
+            <span *ngFor="let date of tour.tourDate" class="bg-emerald-500 text-white text-xs px-3 py-1 rounded-full">
+                {{date}}
+            </span>
+        </div>
+
+
+        <!-- ราคา กับ ปุ่ม -->
+        <div class="flex items-end justify-between px-4 py-4 border-t gap-2">
+            <div class="text-start " *ngFor="let tour of tourlist">
+                <div class="text-black text-lg"><span class="px-1 text-xl text-blue-600">฿</span>{{ tour.price }}</div>
+            </div>
+            <div class="flex gap-2"> 
+                <button class="px-4 py-2 border border-blue-600 text-blue-600 rounded text-sm hover:bg-blue-50 h-auto w-28" >
+                    ดูรายละเอียด
+                </button>
+                
+                <button routerLink="/edit-tour" class="px-4 py-2 border border-yellow-600 text-yellow-600 rounded text-sm hover:bg-blue-50 h-auto w-28" >
+                    แก้ไข
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <!--  -->
+
+</div>
