@@ -1,0 +1,325 @@
+<app-navbar-company></app-navbar-company>
+
+<div class="max-w-5xl mx-auto px-6 py-8 font-kanit">
+
+  <!-- Header -->
+  <div class="mb-8 text-center">
+    <h1 class="text-xl font-semibold text-gray-800">จัดการทัวร์</h1>
+    <p class="text-sm text-gray-400 mt-1">
+      กรอกข้อมูลทัวร์ให้ครบถ้วนเพื่อแสดงบนระบบ
+    </p>
+  </div>
+
+  <div class="bg-white border rounded-xl p-6 space-y-4">
+    <!-- ================= STEP 1 ================= -->
+    <div *ngIf="currentStep === 1" class="space-y-6">
+
+      <h1 class="text-lg text-blue-900">อัปโหลดรูปภาพและไฟล์</h1>
+
+      <!-- Upload -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="border-2 border-dashed border-blue-600 rounded-lg h-52 flex items-center justify-center cursor-pointer hover:bg-purple-50">
+          <div class="text-center space-y-1">
+            <i class="fa-regular fa-image text-2xl text-blue-500"></i>
+            <p class="text-sm">อัปโหลดรูปภาพทัวร์</p>
+            <p class="text-xs text-gray-400">JPG, PNG ไม่เกิน 5 MB</p>
+          </div>
+        </div>
+
+        <div class="border-2 border-dashed border-blue-600 rounded-lg h-52 flex items-center justify-center cursor-pointer hover:bg-purple-50">
+          <div class="text-center space-y-1">
+            <i class="fa-regular fa-file text-2xl text-blue-500"></i>
+            <p class="text-sm">อัปโหลดเอกสาร</p>
+            <p class="text-xs text-gray-400">PDF ไม่เกิน 10 MB</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ชื่อทัวร์ -->
+      <div>
+        <label class="text-sm">ชื่อทัวร์ <span class="text-red-600">*</span></label>
+        <input [(ngModel)]="tourInfo.name"
+               class="w-full border rounded-lg p-3 mt-1"
+               placeholder="เที่ยวเชียงใหม่ 3 วัน 2 คืน">
+      </div>
+
+      <!-- ประเภท / ปลายทาง -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-sm">ประเภททัวร์ <span class="text-red-600">*</span></label>
+          <select [(ngModel)]="tourInfo.type"
+                  (ngModelChange)="onDestinationChange()"
+                  class="w-full border rounded-lg p-3 mt-1">
+            <option value="">เลือก</option>
+            <option value="domestic">ทัวร์ในประเทศ</option>
+            <option value="international">ทัวร์ต่างประเทศ</option>
+          </select>
+        </div>
+
+        <div *ngIf="tourInfo.type">
+          <label class="text-sm">
+            {{ tourInfo.type === 'domestic' ? 'จังหวัด' : 'ประเทศ' }} <span class="text-red-600">*</span>
+          </label>
+          <select [(ngModel)]="tourInfo.destination"
+                  class="w-full border rounded-lg p-3 mt-1">
+            <option value="">เลือก</option>
+            <option *ngFor="let d of destinations" [value]="d">
+              {{ d }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+    <!-- ช่วงวันที่เดินทาง -->
+    <div class="space-y-4 border rounded-lg p-4">
+        <div class="flex justify-between items-center">
+            <label class="text-sm font-medium"> ช่วงวันที่เดินทาง <span class="text-red-500">*</span> </label>
+            <button [(ngModel)]="tourInfo.startDate" type="button" class="text-sm text-green-600"> + เพิ่มช่วงวันเดินทาง </button>
+        </div>
+        <!-- วันที่ไป / กลับ -->
+        <div class="grid grid-cols-2 gap-4 items-center border border-gray-300 rounded-lg p-4">
+                <div class="relative">
+                    <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-500 font-kanit">วันที่เดินทางไป <span class="text-red-500">*</span></label>
+                    <input type="date" [(ngModel)]="tourInfo.startDate" class="w-full border border-gray-300 rounded-lg p-3">
+                </div>
+            <div class="flex items-center gap-2">
+                <div class="relative flex-1">
+                    <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-500 font-kanit"> วันที่เดินทางกลับ <span class="text-red-500">*</span> </label>
+                    <input type="date" [(ngModel)]="tourInfo.endDate" class="w-full border border-gray-300 rounded-lg p-3">
+                </div>
+                <button type="button" class="h-[48px] w-[48px] flex items-center justify-center border border-gray-300 rounded-lg text-red-500 hover:bg-red-50 hover:text-red-600 transition" title="deleteDate">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        <!-- จำนวน -->
+        <div class="grid grid-cols-3 gap-4">
+            <div>
+                <label class="text-sm"> จำนวนวันที่ไป <span class="text-red-500">*</span> </label>
+                <input [(ngModel)]="tourInfo.days" class="w-full border rounded p-2 mt-1" placeholder="เช่น 3 วัน 2 คืน">
+            </div>
+
+            <div>
+                <label class="text-sm"> จำนวนมื้ออาหาร <span class="text-red-500">*</span> </label>
+                <input [(ngModel)]="tourInfo.food" class="w-full border rounded p-2 mt-1" placeholder="เช่น 7 มื้อ">
+            </div>
+
+            <div>
+                <label class="text-sm"> จำนวนสถานที่เที่ยว <span class="text-red-500">*</span> </label>
+                <input [(ngModel)]="tourInfo.place" class="w-full border rounded p-2 mt-1" placeholder="เช่น 5 สถานที่">
+            </div>
+
+        </div>
+
+        <!-- จำนวนคน -->
+        <div class="grid grid-cols-3">
+            <div class="font-kanit text-sm">
+                <label class="text-sm"> จำนวนคนที่รับ <span class="text-red-500">*</span></label>
+                <input type="number" class="w-full border rounded p-2 mt-1" placeholder="เช่น 30">
+            </div>
+        </div>
+    </div>
+
+
+      <!-- ราคา -->
+    <div class="border rounded-lg p-4 space-y-3">
+        <div class="flex justify-between items-center">
+          <h2 class="text-sm text-blue-600">ราคาที่พักตามประเภทห้อง</h2>
+          <button type="button" (click)="toggleFireSale()" class="text-xs px-3 py-1 border rounded" [ngClass]="showFireSalePrices ? 'bg-red-500 text-white' : 'text-gray-600'">
+            {{ showFireSalePrices ? 'ปิดราคาทัวร์ไฟไหม้' : 'เปิดราคาทัวร์ไฟไหม้' }}
+          </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+            <!-- ห้องพักเดี่ยว -->
+            <div class="border rounded-lg p-4 space-y-2">
+                <label class="text-sm font-medium text-gray-700">ห้องพักเดี่ยว</label>
+                <div class="flex items-center border rounded-md px-3 py-2">
+                    <span class="text-gray-400 mr-2">฿</span>
+                    <input type="number" [(ngModel)]="tourInfo.pricing.single" class="w-full outline-none" placeholder="0"/>
+                </div>
+            </div>
+
+            <!-- ห้องพักคู่ -->
+            <div class="border rounded-lg p-4 space-y-2">
+                <label class="text-sm font-medium text-gray-700">ห้องพักคู่</label>
+                <div class="flex items-center border rounded-md px-3 py-2">
+                    <span class="text-gray-400 mr-2">฿</span>
+                    <input type="number" [(ngModel)]="tourInfo.pricing.double" class="w-full outline-none" placeholder="0"/>
+                </div>
+            </div>
+
+            <!-- ห้องพัก 3 คน -->
+            <div class="border rounded-lg p-4 space-y-2">
+                <label class="text-sm font-medium text-gray-700">ห้องพัก 3 คน</label>
+                <div class="flex items-center border rounded-md px-3 py-2">
+                    <span class="text-gray-400 mr-2">฿</span>
+                    <input type="number" [(ngModel)]="tourInfo.pricing.triple" class="w-full outline-none" placeholder="0"/>
+                </div>
+            </div>
+
+            <!-- ห้องเด็ก (มีเตียง) -->
+            <div class="border rounded-lg p-4 space-y-2">
+                <label class="text-sm font-medium text-gray-700">ห้องเด็ก (มีเตียง)</label>
+                <div class="flex items-center border rounded-md px-3 py-2">
+                    <span class="text-gray-400 mr-2">฿</span>
+                    <input type="number" [(ngModel)]="tourInfo.pricing.ChildWithBed" class="w-full outline-none" placeholder="0"/>
+                </div>
+            </div>
+
+            <!-- ห้องเด็ก (ไม่มีเตียง) -->
+            <div class="border rounded-lg p-4 space-y-2">
+                <label class="text-sm font-medium text-gray-700">ห้องเด็ก (ไม่มีเตียง)</label>
+                <div class="flex items-center border rounded-md px-3 py-2">
+                    <span class="text-gray-400 mr-2">฿</span>
+                    <input type="number" [(ngModel)]="tourInfo.pricing.ChildWithoutBed" class="w-full outline-none" placeholder="0" />
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Fire Sale -->
+        <div *ngIf="showFireSalePrices" class="bg-red-50 border border-red-200 rounded-lg p-4 space-y-3">
+          <h3 class="text-sm text-red-600">ราคาทัวร์ไฟไหม้</h3>
+
+            <div class="grid grid-cols-3 gap-4">
+                <!-- ห้องพักเดี่ยว -->
+                <div class="border rounded-lg p-4 space-y-2">
+                    <label class="text-sm font-medium text-gray-700">ห้องพักเดี่ยว</label>
+                    <div class="flex items-center border rounded-md px-3 py-2">
+                        <span class="text-gray-400 mr-2">฿</span>
+                        <input type="number" [(ngModel)]="fireSalePricing.single" class="w-full outline-none" placeholder="0"/>
+                    </div>
+                </div>
+
+                <!-- ห้องพักคู่ -->
+                <div class="border rounded-lg p-4 space-y-2">
+                    <label class="text-sm font-medium text-gray-700">ห้องพักคู่</label>
+                    <div class="flex items-center border rounded-md px-3 py-2">
+                        <span class="text-gray-400 mr-2">฿</span>
+                        <input type="number" [(ngModel)]="fireSalePricing.double" class="w-full outline-none" placeholder="0"/>
+                    </div>
+                </div>
+
+                <!-- ห้องพัก 3 คน -->
+                <div class="border rounded-lg p-4 space-y-2">
+                    <label class="text-sm font-medium text-gray-700">ห้องพัก 3 คน</label>
+                    <div class="flex items-center border rounded-md px-3 py-2">
+                        <span class="text-gray-400 mr-2">฿</span>
+                        <input type="number" [(ngModel)]="fireSalePricing.triple" class="w-full outline-none" placeholder="0"/>
+                    </div>
+                </div>
+
+                <!-- ห้องเด็ก (มีเตียง) -->
+                <div class="border rounded-lg p-4 space-y-2">
+                    <label class="text-sm font-medium text-gray-700">ห้องเด็ก (มีเตียง)</label>
+                    <div class="flex items-center border rounded-md px-3 py-2">
+                        <span class="text-gray-400 mr-2">฿</span>
+                        <input type="number" [(ngModel)]="fireSalePricing.ChildWithBed" class="w-full outline-none" placeholder="0"/>
+                    </div>
+                </div>
+
+                <!-- ห้องเด็ก (ไม่มีเตียง) -->
+                <div class="border rounded-lg p-4 space-y-2">
+                    <label class="text-sm font-medium text-gray-700">ห้องเด็ก (ไม่มีเตียง)</label>
+                    <div class="flex items-center border rounded-md px-3 py-2">
+                        <span class="text-gray-400 mr-2">฿</span>
+                        <input type="number" [(ngModel)]="fireSalePricing.ChildWithoutBed" class="w-full outline-none" placeholder="0" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2">
+                <div class="border rounded-lg p-4 space-y-2">
+                    <label class="text-sm font-medium text-gray-700"> ยกเลิกก่อนเดินทาง (วัน)
+                    <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex items-center border rounded-md px-3 py-2">
+                        <input type="number" min="0" [(ngModel)]="tourInfo.cancleDate" class="w-full outline-none" placeholder="เช่น 7"/>
+                        <span class="text-gray-400 ml-2">วัน</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- Next -->
+      <div class="flex justify-end pt-4 border-t">
+        <button type="button" (click)="next()" class="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50"> ขั้นตอนถัดไป </button>
+      </div>
+
+    </div>
+    <!-- =============== END STEP 1 =============== -->
+
+
+    <!-- ================= STEP 2 ================= -->
+    <div *ngIf="currentStep === 2" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="">
+                <label class="text-sm"> ชื่อโรงแรม <span class="text-red-600">*</span></label>
+                <input [(ngModel)]="hotelInfo.name" type="text" class="w-full mt-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" placeholder="กรอกชื่อโรงแรม"/>
+            </div>
+            <div>
+                <label class="text-sm text-gray-700"> คุณภาพโรงแรม <span class="text-red-600">*</span> </label>
+                <select [(ngModel)]="hotelInfo.rating" class="w-full mt-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600">
+                    <option value="" disabled>เลือกคุณภาพโรงแรม</option>
+                    <option value="3">3 ดาว ⭐⭐⭐</option>
+                    <option value="4">4 ดาว ⭐⭐⭐⭐</option>
+                    <option value="5">5 ดาว ⭐⭐⭐⭐⭐</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-span-2 relative">
+            <textarea rows="3" class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 text-sm resize-y focus:outline-none focus:ring-1 focus:ring-blue-600"placeholder="กรอกที่อยู่โรงแรม"
+            [(ngModel)]="hotelInfo.address" >
+
+            </textarea>
+        </div>
+        <!-- ประเภทการเดินทาง -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-sm">ประเภททัวร์ <span class="text-red-600">*</span></label>
+            <select [(ngModel)]="TravelTypeInfo.type" (ngModelChange)="onTransportChange()" class="w-full border rounded-lg p-3 mt-1">
+              <option value="">เลือก</option>
+              <option value="plane">เครื่องบิน</option>
+              <option value="bus">รถทัวร์</option>
+            </select>
+          </div>
+  
+          <div *ngIf="TravelTypeInfo.type === 'plane'">
+            <label class="text-sm"> สายการบิน <span class="text-red-600">*</span></label>
+            <select [(ngModel)]="TravelTypeInfo.airline" class="w-full border rounded-lg p-3 mt-1">
+              <option value="">เลือก</option>
+              <option *ngFor="let d of airlineList" [value]="d">
+                {{ d }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <!-- สิ้นสุดประเภทการเดินทาง -->
+
+        <!-- Contact Information -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="">Line ID <span class="text-red-600">*</span></label>
+              <input [(ngModel)]="tourInfo.lineId" type="text" class="w-full mt-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" placeholder="กรอก Line ID"/>
+            </div>
+            <div>
+              <label class="">เบอร์โทรศัพท์ <span class="text-red-600">*</span></label>
+              <input [(ngModel)]="tourInfo.phonenumber" type="text" class="w-full mt-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-600 focus:border-blue-600" placeholder="กรอกเบอร์โทรศัพท์"/>
+            </div>
+        </div>
+        <!--  -->
+        
+      <div class="flex justify-between gap-3 pt-4 border-t">
+        <button type="button" (click)="back()" class="px-4 py-2 border border-red-600 text-red-600 rounded hover:bg-blue-50"> ย้อนกลับ </button>
+        <button type="button" (click)="submit()" class="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50"> บันทึกทัวร์ </button>
+      </div>
+
+    </div>
+    <!-- =============== END STEP 2 =============== -->
+
+  </div>
+</div>
+
+\

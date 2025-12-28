@@ -10,6 +10,11 @@ import { TourDetails } from './component-member/tour-details/tour-details';
 import { ListPages } from './component-member/list-pages/list-pages';
 import { authGuard, guestOnlyGuard } from './services/auth.guard';
 
+//company
+import { Dashboard } from './company/dashboard/dashboard';
+import { NavbarCompany} from './company/navbar-company/navbar-company';
+import { CreateTour } from './company/create-tour/create-tour';
+
 export const routes: Routes = [
     {path: '', component: LandingPage},
 	{ path: 'register', component: Register, canActivate: [guestOnlyGuard] },
@@ -21,5 +26,9 @@ export const routes: Routes = [
         path: 'auth/callback',
         loadComponent: () => import('./services/auth-callback')
             .then(m => m.AuthCallback)
-    }
+    },
+    {path: 'dashboard-company', component: Dashboard, canActivate: [authGuard]},
+    {path: 'create-tour', component: CreateTour, canActivate: [authGuard]},
+    {path: 'navbar-company', component: NavbarCompany, canActivate: [authGuard]},
+
 ];

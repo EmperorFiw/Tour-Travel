@@ -1,0 +1,120 @@
+<app-navbar-company></app-navbar-company>
+
+<div class="bg-gray-50 min-h-screen font-kanit">
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-6">
+
+    <!-- ===== Tabs ===== -->
+    <div class="flex gap-6 border-b mb-6 text-sm font-medium">
+      <span class="pb-2 border-b-2 border-blue-600 text-blue-600">ภาพรวม</span>
+      <span class="text-gray-500">จัดการทัวร์</span>
+      <span class="text-gray-500">การจอง</span>
+      <span class="text-gray-500">รีวิว</span>
+      <span class="text-gray-500">สถิติ</span>
+    </div>
+
+    <!-- ===== Summary Cards ===== -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="border rounded-lg p-4 bg-white">
+        <p class="text-gray-500 text-sm">ทัวร์ทั้งหมด</p>
+        <p class="text-2xl font-semibold">{{ totalTours }}</p>
+      </div>
+
+      <div class="border rounded-lg p-4 bg-white">
+        <p class="text-gray-500 text-sm">การจองทั้งหมด</p>
+        <p class="text-2xl font-semibold">{{ totalBookings }}</p>
+      </div>
+
+      <div class="border rounded-lg p-4 bg-white">
+        <p class="text-gray-500 text-sm">รายได้ทั้งหมด</p>
+        <p class="text-2xl font-semibold">฿ {{ totalIncome | number }}</p>
+      </div>
+
+      <div class="border rounded-lg p-4 bg-white">
+        <p class="text-gray-500 text-sm">คะแนนเฉลี่ย</p>
+        <p class="text-2xl font-semibold">{{ averageRating }}</p>
+      </div>
+    </div>
+
+    <!-- ===== Latest Bookings ===== -->
+    <div class="bg-white border rounded-lg p-4 mb-6">
+        <div class="flex justify-between mb-4">
+            <div class="flex items-start gap-3">
+                <!-- icon + วันนี้ -->
+                <div class="flex flex-col items-center text-blue-600">
+                    <svg class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 12h6M9 16h6" />
+                    </svg>
+                    <span class="text-[10px] text-gray-400 mt-1">วันนี้</span>
+                </div>
+
+                <!-- title -->
+                <h3 class="font-semibold font-kanit">การจองล่าสุด</h3>
+            </div>
+
+            <div class="mx-4 flex flex-col-2 items-end gap-4">
+                <span class="text-sm text-green-600 cursor-pointer"> 0 รายการจองทั้งหมด</span>
+                <span class="text-sm text-blue-600 cursor-pointer">ดูทั้งหมด</span>
+            </div>
+        </div>
+
+        <div *ngFor="let booking of latestBookings" class="flex justify-between py-3 border-b last:border-b-0">
+            <div class="px-8">
+                <p class="font-medium">{{ booking.name }}</p>
+                <p class="text-sm text-gray-500">{{ booking.tour }}</p>
+                <p class="text-xs text-gray-400">{{ booking.date }}</p>
+            </div> 
+
+            <span class="text-sm font-medium"
+                [ngClass]="{
+                    'text-green-600': booking.status === 'completed',
+                    'text-red-600': booking.status === 'cancel'
+                }">
+            {{ booking.status === 'completed' ? 'สำเร็จแล้ว' : 'ยกเลิก' }}
+            </span>
+        </div>
+        <div class="flex justify-center mt-4">
+            <button class="text-blue-600 text-sm font-kanit">ดูการจองทั้งหมด</button>
+        </div>
+    </div>
+
+
+  <!-- ===== Notifications ===== -->
+    <div class="bg-white border rounded-lg p-4">
+        <div class="flex justify-between mb-4">
+            <div class="flex items-start gap-3">
+                <!-- icon + วันนี้ -->
+                <div class="flex flex-col items-center text-orange-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0a3 3 0 11-6 0h6z" />
+                    </svg>
+                    <span class="text-[10px] text-gray-400 mt-1">วันนี้</span>
+                </div>
+
+                <!-- title -->
+                <h3 class="font-semibold font-kanit">การแจ้งเตือนล่าสุด</h3>
+            </div>
+            <div class="mx-4 flex flex-col-2 items-end gap-4">
+                <span class="text-sm text-red-600 cursor-pointer"> 0 รายการจองทั้งหมด</span>
+                <span class="text-sm text-blue-600 cursor-pointer">ดูทั้งหมด</span>
+            </div>
+
+        </div>
+
+        <div *ngFor="let noti of notifications"
+            class="py-3 border-b last:border-b-0">
+            <p class="text-sm">{{ noti.text }}</p>
+            <p class="text-xs text-gray-400">{{ noti.time }}</p>
+        </div>
+
+         <div class="flex justify-center mt-4">
+            <button class="text-blue-600 text-sm font-kanit">ดูการแจ้งเตือนทั้งหมด</button>
+        </div>
+    </div>
+
+  </div>
+</div>
